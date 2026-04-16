@@ -1,5 +1,3 @@
-# Pcgrl-maze-zelda-representation-ablation
-
 # Procedural Content Generation via Reinforcement Learning (PCGRL)
 
 This project implements and evaluates **Procedural Content Generation via Reinforcement Learning (PCGRL)** using Proximal Policy Optimization (PPO). The system generates structured environments such as **binary mazes** and **Zelda-like levels**, and studies the impact of **representation, reward design, and training configurations** through extensive experiments and ablation studies.
