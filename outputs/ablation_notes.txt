@@ -1,0 +1,143 @@
+========================================
+BINARY MAZE - ABLATION
+========================================
+
+1. REPRESENTATIONS
+------------------
+
+NARROW REPRESENTATION
+- Edits one tile at a time in a fixed sequence.
+- Action space is small (only tile value change: 0 or 1).
+- Provides controlled and stable updates.
+
+Behavior:
+- Learns faster (high sample efficiency).
+- Produces consistent and stable results.
+- Strong performance even at low training steps.
+
+Conclusion:
+Narrow representation simplifies the learning problem by restricting the action space, leading to faster convergence and higher stability.
+
+
+WIDE REPRESENTATION
+- Can modify any tile at any time.
+- Action space is large (grid_size² × tile values).
+- Provides full flexibility in editing.
+
+Behavior:
+- Slower learning due to large search space.
+- Higher variance across runs.
+- Improves gradually with more training steps.
+
+Conclusion:
+Wide representation enables more flexibility but increases optimization difficulty, requiring more training to achieve comparable performance.
+
+
+----------------------------------------
+
+2. METRICS USED
+---------------
+
+avg_reward:
+- Mean total reward across episodes.
+- Indicates how well the agent optimizes the reward function.
+
+std_reward:
+- Variance of reward across seeds.
+- Measures training stability.
+
+success_rate:
+- Percentage of generated levels that satisfy the success condition (valid path).
+- Main performance metric.
+
+std_success:
+- Variance in success across seeds.
+- Indicates consistency of learning.
+
+avg_path_length:
+- Average length of valid path from start to goal.
+- Measures quality of generated solutions.
+
+avg_connectivity:
+- Fraction of connected empty tiles.
+- Measures global structure of the level.
+
+avg_empty_ratio:
+- Proportion of empty tiles in the grid.
+- Measures density balance.
+
+seed_rewards / seed_success / seed_paths:
+- Raw per-seed values.
+- Used to analyze variance and reproducibility.
+
+
+----------------------------------------
+
+3. KEY OBSERVATIONS FROM RESULTS
+--------------------------------
+
+NARROW vs WIDE (EARLY TRAINING)
+- Narrow achieves high success quickly (~0.85–0.90 at 50k steps).
+- Wide performs poorly initially (~0.20 at 50k steps).
+
+Conclusion:
+Narrow representation is significantly more sample-efficient.
+
+
+TRAINING PROGRESSION
+- Narrow shows strong early performance with minor fluctuations.
+- Wide improves steadily with more training steps.
+
+Conclusion:
+Wide representation benefits from longer training but lags behind narrow in early stages.
+
+
+CONNECTIVITY RELATIONSHIP
+- Higher connectivity strongly correlates with higher success.
+- Wide representation shows low connectivity early, improving over time.
+
+Conclusion:
+Connectivity is a key driver of success.
+
+
+PATH LENGTH CONSISTENCY
+- Path length remains nearly constant (~18) across all experiments.
+
+Conclusion:
+Once a valid solution is found, both representations produce similar quality paths.
+The main challenge is finding valid solutions, not optimizing them.
+
+
+ENTROPY EFFECT
+- Higher entropy (0.05) reduces success rate for both representations.
+- Leads to increased instability.
+
+Conclusion:
+Excessive exploration negatively impacts structured learning.
+
+
+----------------------------------------
+
+4. ABLATION INSIGHTS
+--------------------
+
+NO_CONNECTIVITY
+- Removes global connectivity reward.
+
+Effect:
+- Significant drop in success rate.
+- Disconnected maps.
+
+Conclusion:
+Connectivity is the most critical reward component.
+
+
+NO_CORRIDOR
+- Removes corridor/maze structure reward.
+
+Effect:
+- Minimal change in performance.
+
+Conclusion:
+Corridor structure has low importance.
+

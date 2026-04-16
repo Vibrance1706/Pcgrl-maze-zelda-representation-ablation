@@ -1,0 +1,59 @@
+experiment:
+  name: binary_maze_pcgrl
+  output_dir: outputs/
+
+environment:
+  type: BinaryPCGRLEnv
+  grid_size: 10
+  max_steps: 200
+  representations:
+    - narrow
+    - wide
+
+training:
+  algorithm: PPO
+  policy: MlpPolicy
+  total_timesteps:
+    - 50000
+    - 100000
+    - 200000
+    - 500000
+
+  hyperparameters:
+    learning_rate: 0.0003
+    n_steps: 1024
+    batch_size: 64
+    ent_coef: 0.02
+    n_envs: 4
+
+evaluation:
+  episodes: 100
+  max_steps_per_episode: 100
+
+seeds:
+  - 0
+  - 42
+  - 100
+
+reward:
+  connectivity_weight: 15
+  connectivity_bonus_threshold: 0.95
+  connectivity_bonus: 8
+
+  path_length_weight: 0.02
+  path_length_bonus_threshold: 15
+  path_length_bonus: 5
+
+  density_target: 0.5
+  density_penalty_weight: -3
+  extreme_density_penalty: 5
+
+  corridor_weight: 0.25
+  local_similarity_weight: 0.05
+
+  exploration_bonus: 0.01
+
+logging:
+  save_models: true
+  save_plots: true
+  csv_path: outputs/experiment_results.csv

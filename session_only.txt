@@ -1,0 +1,1 @@
+set PATH=C:\Program Files\Python310\;C:\Program Files\Python310\Scripts\;%PATH%
