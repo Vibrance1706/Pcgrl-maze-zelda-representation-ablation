@@ -17,6 +17,10 @@ training:
   total_timesteps:
     - 50000
     - 100000
+    - 200000
+    - 500000
+    - 750000
+    - 1000000
 
   hyperparameters:
     learning_rate: 0.0003
@@ -26,13 +30,20 @@ training:
     n_envs: 4
 
 evaluation:
-  episodes: 100
+  episodes: 500
   max_steps_per_episode: 200
 
 seeds:
   - 0
-  - 42
-  - 100
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
 
 reward:
   entity_reward:
@@ -43,15 +54,15 @@ reward:
 
   path_reward:
     valid_path_bonus: 30
-    invalid_path_penalty: -1
-    path_length_weight: 0.5
+    invalid_path_penalty: -10
+    path_length_weight: 5
 
   density:
     target: 0.4
     penalty_weight: -2
 
   diversity_bonus: 0.5
-  exploration_bonus: 0.01
+  exploration_bonus: 0.1
 
   normalization_factor: 20.0
 
@@ -64,3 +75,40 @@ logging:
   save_models: true
   save_plots: true
   csv_path: outputs/zelda_results.csv
+
+
+# ABLATION
+
+
+ablation:
+
+  enabled: true
+
+  training_steps:
+    - 50000
+    - 100000
+    - 200000
+
+  seeds:
+    - 0
+    - 42
+
+  entropy_values:
+    - 0.01
+    - 0.05
+
+  variants:
+    - name: baseline
+      config: {}
+
+    - name: no_sequential
+      config:
+        use_sequential: false
+
+    - name: no_distance
+      config:
+        use_distance_reward: false
+
+    - name: no_connectivity
+      config:
+        enforce_connectivity: false

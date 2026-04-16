@@ -1,5 +1,5 @@
 experiment:
-  name: binary_maze_pcgrl
+  name: binary_pcgrl
   output_dir: outputs/
 
 environment:
@@ -18,42 +18,98 @@ training:
     - 100000
     - 200000
     - 500000
+    - 750000
+    - 1000000
 
   hyperparameters:
     learning_rate: 0.0003
     n_steps: 1024
     batch_size: 64
-    ent_coef: 0.02
+    ent_coef: 0.03
     n_envs: 4
 
 evaluation:
-  episodes: 100
+  episodes: 500
   max_steps_per_episode: 100
 
 seeds:
   - 0
-  - 42
-  - 100
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
 
 reward:
-  connectivity_weight: 15
-  connectivity_bonus_threshold: 0.95
-  connectivity_bonus: 8
+  connectivity:
+    enabled: true
+    weight: 15
+    bonus_threshold: 0.95
+    bonus: 8
 
-  path_length_weight: 0.02
-  path_length_bonus_threshold: 15
-  path_length_bonus: 5
+  path_length:
+    enabled: true
+    weight: 0.02
+    bonus_threshold: 15
+    bonus: 5
 
-  density_target: 0.5
-  density_penalty_weight: -3
-  extreme_density_penalty: 5
+  density:
+    enabled: true
+    target: 0.5
+    penalty_weight: -3
+    extreme_penalty: -5
 
-  corridor_weight: 0.25
-  local_similarity_weight: 0.05
+  corridor:
+    enabled: true
+    weight: 0.25
+
+  local_smoothness:
+    enabled: true
+    weight: 0.05
 
   exploration_bonus: 0.01
+
+success:
+  metric: path_length
+  threshold: 15
 
 logging:
   save_models: true
   save_plots: true
   csv_path: outputs/experiment_results.csv
+
+
+# ABLATION 
+
+
+ablation:
+
+  enabled: true
+
+  training_steps:
+    - 500000
+    - 1000000
+
+  seeds:
+    - 0
+    - 42
+
+  entropy_values:
+    - 0.01
+    - 0.05
+
+  variants:
+    - name: baseline
+      config: {}
+
+    - name: no_connectivity
+      config:
+        use_connectivity: false
+
+    - name: no_corridor
+      config:
+        use_corridor: false
