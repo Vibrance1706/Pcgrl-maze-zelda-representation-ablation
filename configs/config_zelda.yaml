@@ -1,0 +1,66 @@
+experiment:
+  name: zelda_pcgrl
+  output_dir: outputs/
+
+environment:
+  type: ZeldaPCGRLEnv
+  grid_size: 10
+  max_steps: 200
+  tile_values: 5
+  representations:
+    - narrow
+    - wide
+
+training:
+  algorithm: PPO
+  policy: MlpPolicy
+  total_timesteps:
+    - 50000
+    - 100000
+
+  hyperparameters:
+    learning_rate: 0.0003
+    n_steps: 1024
+    batch_size: 64
+    ent_coef: 0.03
+    n_envs: 4
+
+evaluation:
+  episodes: 100
+  max_steps_per_episode: 200
+
+seeds:
+  - 0
+  - 42
+  - 100
+
+reward:
+  entity_reward:
+    player: 2
+    key: 2
+    door: 2
+    invalid_penalty: -1
+
+  path_reward:
+    valid_path_bonus: 30
+    invalid_path_penalty: -1
+    path_length_weight: 0.5
+
+  density:
+    target: 0.4
+    penalty_weight: -2
+
+  diversity_bonus: 0.5
+  exploration_bonus: 0.01
+
+  normalization_factor: 20.0
+
+success:
+  requires:
+    - player_to_key_path
+    - key_to_door_path
+
+logging:
+  save_models: true
+  save_plots: true
+  csv_path: outputs/zelda_results.csv
