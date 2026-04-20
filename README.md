@@ -19,11 +19,11 @@ Two environments are implemented:
 
   * Multi-tile grid with:
 
-    * Player (P)
-    * Key (K)
-    * Door (D)
+    * Start
+    * Key 
+    * Goal
     * Walls / Empty space
-  * Goal: Ensure solvable sequence: **Player → Key → Door**
+  * Goal: Ensure solvable sequence: **Start → Key → Goal**
 
 ---
 
@@ -196,8 +196,8 @@ python ablation_study/plot_zelda_ablation.py
 
 ### Zelda Environment
 
-* Valid entity placement (Player, Key, Door)
-* Reachability (Player → Key → Door)
+* Valid entity placement (Start, Key, Goal)
+* Reachability (Start → Key → Goal)
 * Distance-based shaping
 * Tile diversity
 * Density control
@@ -210,7 +210,7 @@ python ablation_study/plot_zelda_ablation.py
 * **Success Rate**
 
   * Binary: path length ≥ threshold
-  * Zelda: valid Player → Key → Door path
+  * Zelda: valid Start → Key → Goal path
 * **Path Length**
 * **Connectivity Ratio**
 * **Density (empty tile ratio)**
